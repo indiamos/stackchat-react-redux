@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import store from '../store';
+import store from '../store/';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 function ChannelList(props) {
   return (
@@ -12,7 +13,7 @@ function ChannelList(props) {
           <li key={channel.id}>
             <NavLink to={`/channels/${channel.id}`} activeClassName="active">
               <span># {channel.name}</span>
-              <span className="badge">{ props.messages.filter(message => message.channelId === 1).length }</span>
+              <span className="badge">{ props.messages.filter(message => message.channelId === channel.id).length }</span>
             </NavLink>
           </li>
         )
@@ -33,5 +34,5 @@ function mapStateToProps(state) {
   };
 }
 
-const ChannelListContainer = connect(mapStateToProps)(ChannelList);
+const ChannelListContainer = withRouter(connect(mapStateToProps)(ChannelList));
 export default ChannelListContainer;

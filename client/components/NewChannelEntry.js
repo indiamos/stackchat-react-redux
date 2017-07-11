@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { writeChannelName, postChannel } from '../store';
+import { writeChannelName, postChannel } from '../store/';
 
 function NewChannelEntry (props) {
   return (
@@ -17,26 +17,27 @@ function NewChannelEntry (props) {
 }
 
 /** Write your `connect` component below! **/
-function mapStateToProps(state){
+function mapStateToProps(state, ownProps){
   return {
     newChannelEntry: state.newChannelEntry
   };
 };
 
-function mapDispatchToProps(dispatch){
+function mapDispatchToProps(dispatch, ownProps){
   return {
       handleChange (evt) {
         dispatch(writeChannelName(evt.target.value));
-      };
+      },
 
       handleSubmit (evt) {
         evt.preventDefault();
         const channelName = evt.target.channelName.value;
-        dispatch(postChannel({ name: channelName}))
+        dispatch(postChannel({ name: channelName}, ownProps.history));
+        dispatch(writeChannelName(''));
       }
 
   };
 };
 
 const NewChannelEntryContainer = connect(mapStateToProps,mapDispatchToProps)(NewChannelEntry);
-export default NewChannelEntryContainer; 
+export default NewChannelEntryContainer;
